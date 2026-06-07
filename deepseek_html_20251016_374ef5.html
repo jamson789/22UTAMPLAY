@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UtamPlay Video App - Admin Panel</title>
+    <title>UtamPlay - Video App na Admin Panel</title>
     <style>
         * {
             margin: 0;
@@ -18,11 +18,7 @@
             min-height: 100vh;
         }
         
-        /* Dark Theme */
-        body.dark-theme {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
-        
+        /* Header */
         header {
             background: rgba(0, 0, 0, 0.95);
             padding: 25px 20px;
@@ -64,13 +60,17 @@
             to { text-shadow: 0 0 30px red, 0 0 10px darkred; }
         }
         
+        .tagline {
+            color: #aaa;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
         }
         
-        /* Admin Button */
+        /* Admin Button - Anayeonekana kwa wote, ila admin ndo anayejua password */
         .admin-btn {
             position: fixed;
             bottom: 20px;
@@ -92,93 +92,6 @@
             color: #000;
             transform: scale(1.05);
             box-shadow: 0 0 25px rgba(255,0,0,0.6);
-        }
-        
-        /* Admin Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background: #111;
-            border: 2px solid #ff0000;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 0 50px rgba(255,0,0,0.3);
-        }
-        
-        .modal-content h2 {
-            color: #ff0000;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .modal-content input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #222;
-            border: 1px solid #ff0000;
-            color: white;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-        
-        .modal-content button {
-            width: 100%;
-            padding: 12px;
-            background: #ff0000;
-            color: black;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .modal-content button:hover {
-            background: #ff4444;
-            transform: scale(1.02);
-        }
-        
-        .log-list {
-            margin-top: 20px;
-        }
-        
-        .log-item {
-            background: #1a1a1a;
-            padding: 10px;
-            margin: 8px 0;
-            border-left: 3px solid #ff0000;
-            font-size: 14px;
-            border-radius: 5px;
-        }
-        
-        .close-modal {
-            float: right;
-            font-size: 28px;
-            cursor: pointer;
-            color: #ff0000;
         }
         
         /* Video Grid */
@@ -258,7 +171,6 @@
             font-size: 0.9rem;
         }
         
-        /* Stats Bar */
         .stats-bar {
             background: #111;
             padding: 15px;
@@ -274,6 +186,194 @@
             font-size: 1.2rem;
         }
         
+        /* ADMIN DASHBOARD PANEL - Inaonekana tu admin akiingia */
+        .admin-dashboard {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 2000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .admin-dashboard.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .dashboard-header {
+            background: #000;
+            padding: 20px 30px;
+            border-bottom: 3px solid #ff0000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .dashboard-header h2 {
+            color: #ff0000;
+            font-size: 1.5rem;
+        }
+        
+        .close-dashboard {
+            background: #ff0000;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #111;
+            border: 1px solid #ff0000;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+        
+        .video-stats-table {
+            background: #111;
+            border-radius: 15px;
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        th {
+            background: #1a1a1a;
+            color: #ff0000;
+        }
+        
+        .logs-container {
+            background: #111;
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .log-item {
+            background: #1a1a1a;
+            padding: 10px;
+            margin: 8px 0;
+            border-left: 3px solid #ff0000;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .btn-danger {
+            background: #8b0000;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #333;
+            color: #ff0000;
+            border: 1px solid #ff0000;
+        }
+        
+        /* Login Modal ndani ya dashboard */
+        .login-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .login-box {
+            background: #111;
+            border: 2px solid #ff0000;
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #222;
+            border: 1px solid #ff0000;
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #ff0000;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
         @media (max-width: 768px) {
             .video-grid {
                 grid-template-columns: 1fr;
@@ -283,7 +383,6 @@
             }
         }
         
-        /* Animations */
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -292,17 +391,12 @@
         .pulse {
             animation: pulse 2s infinite;
         }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
-<body class="dark-theme">
+<body>
     <header>
         <h1 class="pulse">22utamplay</h1>
-        <p class="tagline"></p>
+        <p class="tagline">Angalia video za kipekee - Admin bonyeza kitufe chini kulia</p>
     </header>
     
     <div class="container">
@@ -311,129 +405,125 @@
         </div>
         
         <div class="video-grid" id="videoGrid">
-            <!-- Video 1 -->
+            <!-- Video 1 - Kila video ina KAVA LAKE TOFAUTI -->
             <div class="video-card" data-video-id="1" data-video-name="Mtam1">
                 <div class="video-header">
-                    <h2>Video 1 - Mtam1</h2>
+                    <h2>🎬 Video 1 - Mtam1</h2>
                 </div>
                 <div class="video-container">
-                    <video controls poster="https://via.placeholder.com/350x200/333333/ffffff?text=UTAMPLAY+VIDEO">
+                    <video controls poster="https://picsum.photos/id/100/400/300">
                         <source src="https://cdn71.xcdn1.me/m/1fc826149688a3b2be7412ecfa47eb60videoN2E1ZDlhMzIwZmFjNmU5MzYwZjU1OTQzNjQ5NTZiZjUubXA0.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="video-footer">
-                    <!-- Bonyeza Hapa imeondolewa kabisa -->
-                </div>
+                <div class="video-footer"></div>
             </div>
             
             <!-- Video 2 -->
             <div class="video-card" data-video-id="2" data-video-name="utam2">
-                <div class="video-header">
-                    <h2>Video 2 - utam2</h2>
-                </div>
-                <div class="video-container">
-                    <video controls poster="https://via.placeholder.com/350x200/333333/ffffff?text=UTAMPLAY+VIDEO">
-                        <source src="https://cdn60.xcdn1.me/m/68f8d6724333b76eb6524752ef027f70videoNTZhOTNmNTBlYTZjOGY5MTJkZjhkMTRmYjk1NjMxZWEubXA0.mp4" type="video/mp4">
-                    </video>
-                </div>
+                <div class="video-header"><h2>🎬 Video 2 - utam2</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/101/400/300"><source src="https://cdn60.xcdn1.me/m/68f8d6724333b76eb6524752ef027f70videoNTZhOTNmNTBlYTZjOGY5MTJkZjhkMTRmYjk1NjMxZWEubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
             
-            <!-- Video 3 hadi 11 zimefupishwa kwa ajili ya nafasi, lakini zote zina muundo sawa -->
+            <!-- Video 3 -->
             <div class="video-card" data-video-id="3" data-video-name="utam3">
-                <div class="video-header"><h2>Video 3 - utam3</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn60.xcdn1.me/d/b1bfde439c7869796b66bd30af6a7341videoNWIzYzY4MzBmMGQ1OGUzMWE2N2M0MTRhYzczNDQ4NGIubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 3 - utam3</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/102/400/300"><source src="https://cdn60.xcdn1.me/d/b1bfde439c7869796b66bd30af6a7341videoNWIzYzY4MzBmMGQ1OGUzMWE2N2M0MTRhYzczNDQ4NGIubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 4 -->
             <div class="video-card" data-video-id="4" data-video-name="utam4">
-                <div class="video-header"><h2>Video 4 - utam4</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn60.xcdn1.me/m/67ebc9207bd840839c3cf147036b7986videoOTI1N2NlNmYxZDMxMTE3ZGI3ODk5NTZiMDFjMWU1NGQubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 4 - utam4</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/103/400/300"><source src="https://cdn60.xcdn1.me/m/67ebc9207bd840839c3cf147036b7986videoOTI1N2NlNmYxZDMxMTE3ZGI3ODk5NTZiMDFjMWU1NGQubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 5 -->
             <div class="video-card" data-video-id="5" data-video-name="utam5">
-                <div class="video-header"><h2>Video 5 - utam5</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn41.xcdn1.me/m/8d280585381f445c62c9ca462fd83ef0videoZjJkOWFiNmU3YzQ0MmI0MWUxMDk5YjQxNTQyOTM5MGMubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 5 - utam5</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/104/400/300"><source src="https://cdn41.xcdn1.me/m/8d280585381f445c62c9ca462fd83ef0videoZjJkOWFiNmU3YzQ0MmI0MWUxMDk5YjQxNTQyOTM5MGMubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 6 -->
             <div class="video-card" data-video-id="6" data-video-name="utam6">
-                <div class="video-header"><h2>Video 6 - utam6</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn101.xcdn1.me/m/52eaba3495e4c4a8477e418dfee66077videoMjVmYzFkOTI5NzU1MjhkNTg0ZDhjZWJjNWM0MzlhMTIubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 6 - utam6</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/105/400/300"><source src="https://cdn101.xcdn1.me/m/52eaba3495e4c4a8477e418dfee66077videoMjVmYzFkOTI5NzU1MjhkNTg0ZDhjZWJjNWM0MzlhMTIubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 7 -->
             <div class="video-card" data-video-id="7" data-video-name="utam7">
-                <div class="video-header"><h2>Video 7 - utam7</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn50.xcdn1.me/m/948312e62f159e8c1f9fbb800cfda540videoNDY1ODJkNDM4NGQ0YzBjM2E5ZmQ0ZjNkNzM4MTAxOTkubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 7 - utam7</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/106/400/300"><source src="https://cdn50.xcdn1.me/m/948312e62f159e8c1f9fbb800cfda540videoNDY1ODJkNDM4NGQ0YzBjM2E5ZmQ0ZjNkNzM4MTAxOTkubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 8 -->
             <div class="video-card" data-video-id="8" data-video-name="utam8">
-                <div class="video-header"><h2>Video 8 - utam8</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn71.xcdn1.me/m/1c947c7a2a5b8222e17a9635530d9583videoOWUyNDJjODExMmQ1MDkwYzg5MzAwYTEyMGU4ODhmMzkubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 8 - utam8</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/107/400/300"><source src="https://cdn71.xcdn1.me/m/1c947c7a2a5b8222e17a9635530d9583videoOWUyNDJjODExMmQ1MDkwYzg5MzAwYTEyMGU4ODhmMzkubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 9 -->
             <div class="video-card" data-video-id="9" data-video-name="utam9">
-                <div class="video-header"><h2>Video 9 - utam9</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn50.xcdn1.me/m/0a8b9c0297cb7f8e1b2010b453539541videoMjFmN2IwMjRhYmVkZTI4MTU1NGJhZDhlZTQ3Zjk1YjUubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 9 - utam9</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/108/400/300"><source src="https://cdn50.xcdn1.me/m/0a8b9c0297cb7f8e1b2010b453539541videoMjFmN2IwMjRhYmVkZTI4MTU1NGJhZDhlZTQ3Zjk1YjUubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 10 -->
             <div class="video-card" data-video-id="10" data-video-name="utam10">
-                <div class="video-header"><h2>Video 10 - utam10</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn50.xcdn1.me/m/0b690e7be4eb45432a76498d4fc72001videoNjlmM2JmNDBhZjA5OTI3NWY0NmY2ODczNzc0Nzk2MDMubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 10 - utam10</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/109/400/300"><source src="https://cdn50.xcdn1.me/m/0b690e7be4eb45432a76498d4fc72001videoNjlmM2JmNDBhZjA5OTI3NWY0NmY2ODczNzc0Nzk2MDMubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
+            
+            <!-- Video 11 -->
             <div class="video-card" data-video-id="11" data-video-name="utam11">
-                <div class="video-header"><h2>Video 11 - utam11</h2></div>
-                <div class="video-container"><video controls><source src="https://cdn72.xcdn1.me/m/0c6fb61a6fd4e9d1d4eae74bd9faa7bavideoYjBhMTcyZDQyNTIzMWZkOTljNTBhZGExYzk2N2Q5Y2UubXA0.mp4" type="video/mp4"></video></div>
+                <div class="video-header"><h2>🎬 Video 11 - utam11</h2></div>
+                <div class="video-container"><video controls poster="https://picsum.photos/id/110/400/300"><source src="https://cdn72.xcdn1.me/m/0c6fb61a6fd4e9d1d4eae74bd9faa7bavideoYjBhMTcyZDQyNTIzMWZkOTljNTBhZGExYzk2N2Q5Y2UubXA0.mp4" type="video/mp4"></video></div>
                 <div class="video-footer"></div>
             </div>
         </div>
     </div>
     
-    <!-- Admin Button -->
-    <div class="admin-btn" id="adminBtn">🔐 ADMIN PANEL</div>
+    <!-- Admin Button - Kila mtu anaiona -->
+    <button class="admin-btn" id="adminBtn">🔐 ADMIN PANEL</button>
     
-    <!-- Admin Login Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <h2>🔑 ADMIN LOGIN</h2>
-            <input type="password" id="adminPassword" placeholder="Weka password ya Admin">
-            <button id="loginBtn">Ingia</button>
-            <div id="loginError" style="color: red; margin-top: 10px; text-align: center;"></div>
+    <!-- Admin Dashboard - Inaonekana tu admin akiingia ndani -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="dashboard-header">
+            <h2>🔧 ADMIN DASHBOARD - UTAMPLAY</h2>
+            <button class="close-dashboard" id="closeDashboardBtn">✖ FUNGA</button>
         </div>
-    </div>
-    
-    <!-- Admin Dashboard Modal -->
-    <div id="dashboardModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <span class="close-modal" id="closeDashboard">&times;</span>
-            <h2>📋 ADMIN DASHBOARD</h2>
-            <div style="background: #1a1a1a; padding: 10px; border-radius: 10px; margin: 10px 0;">
-                <p>🔐 Nguvu: <strong style="color: #00ff00;">IMEINGIA</strong></p>
-                <p>📊 Jumla ya watazamaji: <strong id="dashboardTotalViews" style="color: #ff0000;">0</strong></p>
-            </div>
-            <div id="adminLogs" class="log-list">
-                <!-- Logs zitaonekana hapa -->
-            </div>
-            <button id="clearLogsBtn" style="background: #333; margin-top: 15px;">Futa Historia</button>
-            <button id="logoutBtn" style="background: #ff0000; margin-top: 10px;">Toka (Logout)</button>
+        <div class="dashboard-container" id="dashboardContent">
+            <!-- Content itajazwa na JavaScript -->
         </div>
     </div>
     
     <footer>
         <div class="footer-content">
             <div class="app-name">UTAMPLAY</div>
-            <p class="copyright">©2025 UtamPlay | Admin Panel Imewekwa</p>
+            <p class="copyright">©2025 UtamPlay | Kila video ina kava lake tofauti</p>
         </div>
     </footer>
     
     <script>
-        // ADMIN PASSWORD - Badilisha hapa password unayotaka
+        // ==================== ADMIN PASSWORD ====================
         const ADMIN_PASSWORD = "admin123";
         
-        // Hifadhi ya watazamaji
+        // Admin login state
+        let isAdminLoggedIn = false;
+        
+        // Get dashboard element
+        const dashboard = document.getElementById('adminDashboard');
+        
+        // ==================== VIDEO TRACKING ====================
         let viewerLogs = [];
         
-        // Load logs from localStorage
         function loadLogs() {
             const saved = localStorage.getItem('utamplay_viewer_logs');
             if(saved) {
@@ -442,24 +532,23 @@
             updateViewCount();
         }
         
-        // Save logs to localStorage
         function saveLogs() {
             localStorage.setItem('utamplay_viewer_logs', JSON.stringify(viewerLogs));
             updateViewCount();
+            if(isAdminLoggedIn && dashboard.classList.contains('active')) {
+                renderDashboardContent();
+            }
         }
         
-        // Update view count display
         function updateViewCount() {
             const uniqueViewers = new Set();
             viewerLogs.forEach(log => {
                 if(log.viewerId) uniqueViewers.add(log.viewerId);
             });
-            document.getElementById('viewCount').innerText = uniqueViewers.size;
-            const dashboardTotal = document.getElementById('dashboardTotalViews');
-            if(dashboardTotal) dashboardTotal.innerText = uniqueViewers.size;
+            const viewCountSpan = document.getElementById('viewCount');
+            if(viewCountSpan) viewCountSpan.innerText = uniqueViewers.size;
         }
         
-        // Generate or get viewer ID
         function getViewerId() {
             let viewerId = localStorage.getItem('utamplay_viewer_id');
             if(!viewerId) {
@@ -469,7 +558,6 @@
             return viewerId;
         }
         
-        // Log video view
         function logVideoView(videoId, videoName) {
             const viewerId = getViewerId();
             const timestamp = new Date().toLocaleString('sw-TZ', {timeZone: 'Africa/Dar_es_Salaam'});
@@ -479,14 +567,12 @@
                 viewerId: viewerId,
                 videoId: videoId,
                 videoName: videoName,
-                timestamp: timestamp,
-                ip: "LocalStorage Mode" // Kwa demo, unaweza kubadilisha kuwa ip real kwa backend
+                timestamp: timestamp
             });
             
             saveLogs();
         }
         
-        // Track video play events
         function setupVideoTracking() {
             const videos = document.querySelectorAll('.video-card video');
             videos.forEach((video, index) => {
@@ -499,113 +585,210 @@
                     if(!hasLogged) {
                         logVideoView(videoId, videoName);
                         hasLogged = true;
-                        console.log(`✅ Imerekodi: ${videoName} imechezwa`);
-                        // Animation effect kwenye card
-                        card.style.boxShadow = '0 0 20px rgba(255,0,0,0.8)';
-                        setTimeout(() => {
-                            card.style.boxShadow = '';
-                        }, 1000);
+                        if(card) {
+                            card.style.boxShadow = '0 0 20px rgba(255,0,0,0.8)';
+                            setTimeout(() => {
+                                card.style.boxShadow = '';
+                            }, 1000);
+                        }
                     }
                 });
             });
         }
         
-        // Admin Panel Functions
-        let isAdminLoggedIn = false;
-        
-        function showAdminLogin() {
-            document.getElementById('adminModal').style.display = 'flex';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('loginError').innerText = '';
+        // ==================== DASHBOARD FUNCTIONS ====================
+        function getUniqueViewersCount(logs) {
+            const unique = new Set();
+            logs.forEach(log => {
+                if(log.viewerId) unique.add(log.viewerId);
+            });
+            return unique.size;
         }
         
-        function closeAdminLogin() {
-            document.getElementById('adminModal').style.display = 'none';
+        function getVideoStats(logs) {
+            const stats = {};
+            logs.forEach(log => {
+                const key = log.videoId;
+                if(!stats[key]) {
+                    stats[key] = {
+                        id: log.videoId,
+                        name: log.videoName,
+                        count: 0
+                    };
+                }
+                stats[key].count++;
+            });
+            return Object.values(stats).sort((a,b) => b.count - a.count);
         }
         
-        function showAdminDashboard() {
-            if(!isAdminLoggedIn) {
-                showAdminLogin();
-                return;
+        function clearAllLogs() {
+            if(confirm('⚠️ UNA UHAKIKA? Hii itafuta rekodi ZOTE za watazamaji. Huwezi kurejesha!')) {
+                saveViewerLogs([]);
+                viewerLogs = [];
+                saveLogs();
+                if(isAdminLoggedIn && dashboard.classList.contains('active')) {
+                    renderDashboardContent();
+                }
+                alert('✅ Rekodi zote zimefutika.');
             }
+        }
+        
+        function saveViewerLogs(logs) {
+            localStorage.setItem('utamplay_viewer_logs', JSON.stringify(logs));
+        }
+        
+        function exportLogs() {
+            const logs = viewerLogs;
+            const dataStr = JSON.stringify(logs, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `utamplay_logs_${new Date().toISOString().slice(0,19)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function renderDashboardContent() {
+            const logs = viewerLogs;
+            const uniqueViewers = getUniqueViewersCount(logs);
+            const totalPlays = logs.length;
+            const videoStats = getVideoStats(logs);
             
-            // Update dashboard logs
-            const logsContainer = document.getElementById('adminLogs');
-            if(viewerLogs.length === 0) {
-                logsContainer.innerHTML = '<div class="log-item">📭 Hakuna rekodi bado. Mtu aanze kuangalia video.</div>';
-            } else {
-                logsContainer.innerHTML = viewerLogs.slice().reverse().map(log => `
-                    <div class="log-item">
-                        🎬 <strong>${log.videoName}</strong> (ID: ${log.videoId})<br>
-                        👤 ${log.viewerId}<br>
-                        🕐 ${log.timestamp}
+            const today = new Date().toLocaleDateString('sw-TZ');
+            const todayLogs = logs.filter(log => {
+                const logDate = new Date(log.timestamp).toLocaleDateString('sw-TZ');
+                return logDate === today;
+            });
+            
+            const content = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">${uniqueViewers}</div>
+                        <div>Watazamaji Wapekee</div>
                     </div>
-                `).join('');
-            }
+                    <div class="stat-card">
+                        <div class="number">${totalPlays}</div>
+                        <div>Uchezaji Jumla</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${todayLogs.length}</div>
+                        <div>Uchezaji Leo</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${videoStats.length}</div>
+                        <div>Video Zilizochezwa</div>
+                    </div>
+                </div>
+                
+                <h3 style="color:#ff0000; margin:20px 0 10px;">📊 TAKWIMU ZA KILA VIDEO</h3>
+                <div class="video-stats-table">
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Jina la Video</th><th>Mara Imechezwa</th><th>Asilimia</th></tr>
+                        </thead>
+                        <tbody>
+                            ${videoStats.map((stat, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td><strong style="color:#ff6666;">🎬 ${stat.name}</strong></td>
+                                    <td>${stat.count} views</td>
+                                    <td>${totalPlays > 0 ? Math.round((stat.count/totalPlays)*100) : 0}%</td>
+                                </tr>
+                            `).join('')}
+                            ${videoStats.length === 0 ? '<tr><td colspan="4" style="text-align:center;">📭 Hakuna data bado</td></tr>' : ''}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-danger" id="clearLogsBtn">🗑️ FUTA REKODI ZOTE</button>
+                    <button class="btn btn-warning" id="exportLogsBtn">📥 EXPORT LOGS (JSON)</button>
+                </div>
+                
+                <h3 style="color:#ff0000; margin:20px 0 10px;">📋 REKODI ZA WATAZAMAJI</h3>
+                <div class="logs-container">
+                    ${logs.length === 0 ? `
+                        <div style="text-align:center; padding:40px; color:#555;">
+                            📭 Hakuna rekodi bado. Watazamaji wakianza kuangalia video, wataonekana hapa.
+                        </div>
+                    ` : logs.slice().reverse().map(log => `
+                        <div class="log-item">
+                            <div><span style="color:#ff6666;">🎬 ${log.videoName}</span> (ID: ${log.videoId})</div>
+                            <div style="color:#66ff66; font-size:12px;">👤 ${log.viewerId}</div>
+                            <div style="color:#aaa; font-size:11px;">🕐 ${log.timestamp}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
             
-            updateViewCount();
-            document.getElementById('dashboardModal').style.display = 'flex';
+            document.getElementById('dashboardContent').innerHTML = content;
+            
+            // Attach events
+            const clearBtn = document.getElementById('clearLogsBtn');
+            const exportBtn = document.getElementById('exportLogsBtn');
+            if(clearBtn) clearBtn.addEventListener('click', clearAllLogs);
+            if(exportBtn) exportBtn.addEventListener('click', exportLogs);
+        }
+        
+        function showLoginPrompt() {
+            const content = `
+                <div class="login-overlay" id="loginOverlay">
+                    <div class="login-box">
+                        <h2 style="color:#ff0000;">🔐 ADMIN LOGIN</h2>
+                        <p style="color:#aaa;">Weka password ya admin</p>
+                        <input type="password" id="adminPasswordInput" placeholder="Password" autofocus>
+                        <button id="submitLoginBtn">INGIA</button>
+                        <div id="loginErrorMsg" style="color:red; margin-top:10px;"></div>
+                        <p style="margin-top:15px; font-size:12px; color:#555;">Default: admin123</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('dashboardContent').innerHTML = content;
+            
+            const loginBtn = document.getElementById('submitLoginBtn');
+            const passwordInput = document.getElementById('adminPasswordInput');
+            
+            loginBtn.addEventListener('click', () => {
+                const password = passwordInput.value;
+                if(password === ADMIN_PASSWORD) {
+                    isAdminLoggedIn = true;
+                    renderDashboardContent();
+                } else {
+                    document.getElementById('loginErrorMsg').innerText = '❌ Password si sahihi!';
+                }
+            });
+            
+            passwordInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') loginBtn.click();
+            });
+        }
+        
+        function openDashboard() {
+            dashboard.classList.add('active');
+            if(isAdminLoggedIn) {
+                renderDashboardContent();
+            } else {
+                showLoginPrompt();
+            }
         }
         
         function closeDashboard() {
-            document.getElementById('dashboardModal').style.display = 'none';
+            dashboard.classList.remove('active');
         }
         
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            closeDashboard();
-            alert('Umetoka kwenye Admin Panel.');
-        }
+        // ==================== EVENT LISTENERS ====================
+        document.getElementById('adminBtn').addEventListener('click', openDashboard);
+        document.getElementById('closeDashboardBtn').addEventListener('click', closeDashboard);
         
-        function clearLogs() {
-            if(confirm('Una uhakika unataka kufuta rekodi zote za watazamaji?')) {
-                viewerLogs = [];
-                saveLogs();
-                if(document.getElementById('dashboardModal').style.display === 'flex') {
-                    showAdminDashboard();
-                }
-                alert('Rekodi zimefutika.');
-            }
-        }
-        
-        // Event Listeners for Admin
-        document.getElementById('adminBtn').addEventListener('click', () => {
-            if(isAdminLoggedIn) {
-                showAdminDashboard();
-            } else {
-                showAdminLogin();
-            }
-        });
-        
-        document.getElementById('closeModal').addEventListener('click', closeAdminLogin);
-        document.getElementById('closeDashboard').addEventListener('click', closeDashboard);
-        
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            const password = document.getElementById('adminPassword').value;
-            if(password === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                closeAdminLogin();
-                showAdminDashboard();
-            } else {
-                document.getElementById('loginError').innerText = '❌ Password si sahihi! Jaribu tena.';
-            }
-        });
-        
-        document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
-        document.getElementById('clearLogsBtn').addEventListener('click', clearLogs);
-        
-        // Close modals when clicking outside
+        // Close on outside click
         window.addEventListener('click', (e) => {
-            if(e.target === document.getElementById('adminModal')) closeAdminLogin();
-            if(e.target === document.getElementById('dashboardModal')) closeDashboard();
+            if(e.target === dashboard) {
+                closeDashboard();
+            }
         });
         
-        // Enter key for password
-        document.getElementById('adminPassword').addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') document.getElementById('loginBtn').click();
-        });
-        
-        // Initialize
+        // ==================== INITIALIZE ====================
         loadLogs();
         setupVideoTracking();
         
@@ -623,13 +806,6 @@
                     }, 100);
                 }, index * 100);
             });
-            
-            // Glow effect header
-            const header = document.querySelector('header');
-            header.style.boxShadow = '0 4px 30px rgba(255, 0, 0, 0.7)';
-            setTimeout(() => {
-                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
-            }, 2000);
         });
     </script>
 </body>
